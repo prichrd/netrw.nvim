@@ -52,9 +52,12 @@ function Node:scan_children()
       break
     end
     local node = Node:new(self._path .. '/' .. name)
-    -- TODO: Sort by type
     table.insert(children, node)
   end
+
+  table.sort(children, function(a, b)
+    return a:type() < b:type()
+  end)
   self._children = children
 end
 

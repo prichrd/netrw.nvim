@@ -24,11 +24,6 @@ function Picker:open(node)
   self:register_keymaps()
 end
 
-function Picker:teardown()
-  vim.api.nvim_buf_delete(self._bufnr, {force = true})
-  table.remove(Pickers, self._bufnr)
-end
-
 function Picker:open_parent()
   self:open(self._node:parent())
 end
@@ -42,20 +37,35 @@ function Picker:spawn()
   vim.api.nvim_buf_set_option(bufnr, "swapfile", false)
   vim.api.nvim_buf_set_option(bufnr, 'modifiable', false)
 
-  -- TODO: Save window options to bring them back
   local winid = vim.api.nvim_get_current_win()
+  -- Backup window configs to bring them back up at teardown.
+  self._win_options = {
+    cursorline = vim.api.nvim_win_get_option(winid, 'cursorline'),
+    cursorcolumn = vim.api.nvim_win_get_option(winid, 'cursorcolumn'),
+    number = vim.api.nvim_win_get_option(winid, 'number'),
+    relativenumber = vim.api.nvim_win_get_option(winid, 'relativenumber'),
+  }
+
   vim.api.nvim_win_set_buf(winid, bufnr)
   vim.api.nvim_win_set_option(winid, 'cursorline', true)
   vim.api.nvim_win_set_option(winid, 'cursorcolumn', false)
   vim.api.nvim_win_set_option(winid, 'number', false)
   vim.api.nvim_win_set_option(winid, 'relativenumber', false)
 
-  -- TODO: Cleanup when quitting
-
   Pickers[bufnr] = self
 
   self._bufnr = bufnr
   self._winid = winid
+end
+
+function Picker:teardown()
+  -- Bring back initial window configuration.
+  vim.api.nvim_win_set_option(self._winid, 'cursorline', self._win_options.cursorline)
+  vim.api.nvim_win_set_option(self._winid, 'cursorcolumn', self._win_options.cursorcolumn)
+  vim.api.nvim_win_set_option(self._winid, 'number', self._win_options.number)
+  vim.api.nvim_win_set_option(self._winid, 'relativenumber', self._win_options.relativenumber)
+  vim.api.nvim_buf_delete(self._bufnr, {force = true})
+  table.remove(Pickers, self._bufnr)
 end
 
 function Picker:render()
@@ -65,11 +75,16 @@ function Picker:render()
     local child = children[i]
 
     -- TODO: Devicons if installed
-    local icon = " "
+    local has_devicons, devicons = pcall(require, 'nvim-web-devicons')
+    local icon = ' '
     if child:type() == 'directory' then
       icon = ""
     elseif child:type() == 'file' then
-      icon = ""
+      if has_devicons then
+        icon = devicons.get_icon(child:name())
+      else
+        icon = ""
+      end
     end
 
     local suffix = ""
