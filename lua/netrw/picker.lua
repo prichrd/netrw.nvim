@@ -80,10 +80,12 @@ function Picker:render()
     if child:type() == 'directory' then
       icon = ""
     elseif child:type() == 'file' then
+      icon = ""
       if has_devicons then
-        icon = devicons.get_icon(child:name())
-      else
-        icon = ""
+        local ic = devicons.get_icon(child:name())
+        if ic ~= null then
+          icon = ic
+        end
       end
     end
 
