@@ -33,6 +33,10 @@ function Picker:open_parent()
   self:open(self._node:parent())
 end
 
+function Picker:current_node()
+  return self._node
+end
+
 function Picker:spawn()
   local bufnr = vim.api.nvim_get_current_buf()
   vim.api.nvim_buf_set_option(bufnr, "buflisted", false)
@@ -71,6 +75,10 @@ function Picker:teardown()
   vim.api.nvim_win_set_option(self._winid, 'relativenumber', self._win_options.relativenumber)
   vim.api.nvim_buf_delete(self._bufnr, { force = true })
   table.remove(Pickers, self._bufnr)
+end
+
+function Picker:set_previous_path(previous_path)
+  self._previous_path = previous_path
 end
 
 function Picker:render()
@@ -136,9 +144,27 @@ function Picker:register_keymaps()
     '<cmd>lua require("netrw.picker").callback(' .. self._bufnr .. ', "open_parent")<CR>',
     { noremap = true }
   )
-  -- TODO: Add create file action
-  -- TODO: Add delete file action
-  -- TODO: Add duplicate file action
+  vim.api.nvim_buf_set_keymap(
+    self._bufnr,
+    "n",
+    "%",
+    '<cmd>lua require("netrw.picker").callback(' .. self._bufnr .. ', "create_file")<CR>',
+    { noremap = true }
+  )
+  vim.api.nvim_buf_set_keymap(
+    self._bufnr,
+    "n",
+    "D",
+    '<cmd>lua require("netrw.picker").callback(' .. self._bufnr .. ', "delete_file")<CR>',
+    { noremap = true }
+  )
+  vim.api.nvim_buf_set_keymap(
+    self._bufnr,
+    "n",
+    "R",
+    '<cmd>lua require("netrw.picker").callback(' .. self._bufnr .. ', "rename_file")<CR>',
+    { noremap = true }
+  )
 end
 
 function Picker:get_cursor_node()
@@ -154,6 +180,12 @@ function Picker.callback(bufnr, action)
     picker:open(selected)
   elseif action == "open_parent" then
     picker:open_parent()
+  elseif action == "create_file" then
+    require('netrw.actions.create').run(picker)
+  elseif action == "delete_file" then
+    require('netrw.actions.delete').run(picker)
+  elseif action == "rename_file" then
+    require('netrw.actions.rename').run(picker)
   elseif action == "quit" then
     picker:teardown()
   end
