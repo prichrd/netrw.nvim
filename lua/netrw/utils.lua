@@ -16,10 +16,17 @@ function M.parent_path(path)
   return path:sub(1, i - 1)
 end
 
-function M.get_current_buffer_path()
+function M.get_current_buffer_dir()
   local bufnr = vim.api.nvim_get_current_buf()
   local bufname = vim.api.nvim_buf_get_name(bufnr)
   local filepath = vim.fn.fnamemodify(bufname, ":p:h")
+  return filepath
+end
+
+function M.get_current_buffer_path()
+  local bufnr = vim.api.nvim_get_current_buf()
+  local bufname = vim.api.nvim_buf_get_name(bufnr)
+  local filepath = vim.fn.fnamemodify(bufname, ":p")
   return filepath
 end
 
