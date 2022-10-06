@@ -1,5 +1,7 @@
 local Picker = {}
 
+local utils = require 'netrw.utils'
+
 local Pickers = {}
 
 function Picker:new()
@@ -10,6 +12,9 @@ function Picker:new()
 end
 
 function Picker:open(node)
+  if self._previous_path == nil then
+    self._previous_path = utils.get_current_buffer_path()
+  end
   if node:type() == 'file' then
     vim.cmd(":e " .. node:relpath())
     self:teardown()
@@ -25,6 +30,7 @@ function Picker:open(node)
 end
 
 function Picker:open_parent()
+  self._previous_path = self._node:path()
   self:open(self._node:parent())
 end
 
@@ -64,17 +70,20 @@ function Picker:teardown()
   vim.api.nvim_win_set_option(self._winid, 'cursorcolumn', self._win_options.cursorcolumn)
   vim.api.nvim_win_set_option(self._winid, 'number', self._win_options.number)
   vim.api.nvim_win_set_option(self._winid, 'relativenumber', self._win_options.relativenumber)
-  vim.api.nvim_buf_delete(self._bufnr, {force = true})
+  vim.api.nvim_buf_delete(self._bufnr, { force = true })
   table.remove(Pickers, self._bufnr)
 end
 
 function Picker:render()
   local lines = {}
   local children = self._node:children()
+  local gt = 0
   for i = 1, #children do
     local child = children[i]
+    if child:path() == self._previous_path then
+      gt = i
+    end
 
-    -- TODO: Devicons if installed
     local has_devicons, devicons = pcall(require, 'nvim-web-devicons')
     local icon = ' '
     if child:type() == 'directory' then
@@ -83,7 +92,7 @@ function Picker:render()
       icon = ""
       if has_devicons then
         local ic = devicons.get_icon(child:name())
-        if ic ~= null then
+        if ic ~= nil then
           icon = ic
         end
       end
@@ -98,6 +107,9 @@ function Picker:render()
   end
   vim.api.nvim_buf_set_option(self._bufnr, "modifiable", true)
   vim.api.nvim_buf_set_lines(self._bufnr, 0, -1, true, lines)
+  if gt ~= nil then
+    vim.cmd(":" .. gt)
+  end
   vim.api.nvim_buf_set_option(self._bufnr, "modifiable", false)
 end
 
