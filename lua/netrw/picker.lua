@@ -4,10 +4,11 @@ local utils = require 'netrw.utils'
 
 local Pickers = {}
 
-function Picker:new()
+function Picker:new(conf)
   local o = {}
   setmetatable(o, self)
   self.__index = self
+  o.conf = conf
   return o
 end
 
@@ -15,16 +16,14 @@ function Picker:open(node)
   if self._previous_path == nil then
     self._previous_path = utils.get_current_buffer_path()
   end
+  vim.cmd(":e " .. node:relpath())
   if node:type() == 'file' then
-    vim.cmd(":e " .. node:relpath())
     self:teardown()
     return
   end
   self._node = node
   self._node:scan_children()
-  if self._bufnr == nil then
-    self:spawn()
-  end
+  self:spawn()
   self:render()
   self:register_keymaps()
 end
@@ -35,7 +34,7 @@ function Picker:open_parent()
 end
 
 function Picker:spawn()
-  local bufnr = vim.api.nvim_create_buf(false, true)
+  local bufnr = vim.api.nvim_get_current_buf()
   vim.api.nvim_buf_set_option(bufnr, "buflisted", false)
   vim.api.nvim_buf_set_option(bufnr, "buftype", "nofile")
   vim.api.nvim_buf_set_option(bufnr, "filetype", "netrw")
@@ -85,15 +84,17 @@ function Picker:render()
     end
 
     local has_devicons, devicons = pcall(require, 'nvim-web-devicons')
-    local icon = ' '
-    if child:type() == 'directory' then
-      icon = ""
-    elseif child:type() == 'file' then
-      icon = ""
-      if has_devicons then
-        local ic = devicons.get_icon(child:name())
-        if ic ~= nil then
-          icon = ic
+    local icon = ''
+    if self.conf.enable_icons then
+      if child:type() == 'directory' then
+        icon = " "
+      elseif child:type() == 'file' then
+        icon = " "
+        if has_devicons then
+          local ic = devicons.get_icon(child:name())
+          if ic ~= nil then
+            icon = ic .. " "
+          end
         end
       end
     end
@@ -103,7 +104,7 @@ function Picker:render()
       suffix = "/"
     end
 
-    lines[i] = " " .. icon .. " " .. child:name() .. suffix
+    lines[i] = " " .. icon .. child:name() .. suffix
   end
   vim.api.nvim_buf_set_option(self._bufnr, "modifiable", true)
   vim.api.nvim_buf_set_lines(self._bufnr, 0, -1, true, lines)
