@@ -3,6 +3,10 @@
 It's not because we use netrw that we cannot have nice things! This plugin adds
 a layer of *✨bling✨* and configuration to your favorite file explorer.
 
+<p align="center">
+<img src="https://user-images.githubusercontent.com/3706527/203861361-2bead1ca-a8d2-46bf-b7ed-28ebc3b0589e.png">
+</p>
+
 ## Features
 
 - Print file icons in the sign column
