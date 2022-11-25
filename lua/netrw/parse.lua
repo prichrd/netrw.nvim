@@ -20,7 +20,7 @@ M.get_node = function(line)
 
   local curdir = vim.b.netrw_curdir
 
-  local _, _, node, link = string.find(line, "^(.+)@\t%s*%-%->%s*(.+)$")
+  local _, _, node, link = string.find(line, "^(.+)@\t%s*%-%->%s*(.+)")
   if node then
     return {
       dir = curdir,
@@ -30,7 +30,16 @@ M.get_node = function(line)
     }
   end
 
-  local _, _, dir = string.find(line, "^(.+)/$")
+  local _, _, node = string.find(line, "^([^%s]+)@%s*")
+  if node then
+    return {
+      dir = curdir,
+      node = node,
+      type = M.TYPE_SYMLINK,
+    }
+  end
+
+  local _, _, dir = string.find(line, "^([^%s]+)/")
   if dir then
     return {
       dir = curdir,
@@ -39,10 +48,14 @@ M.get_node = function(line)
     }
   end
 
+
+
+  local _, _, file = string.find(line, "^([^%s]+)%s*")
+
   return {
     dir = curdir,
-    node = line,
-    extension = vim.fn.fnamemodify(line, ":e"),
+    node = file,
+    extension = vim.fn.fnamemodify(file, ":e"),
     type = M.TYPE_FILE,
   }
 end
