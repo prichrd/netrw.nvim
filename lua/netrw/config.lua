@@ -8,6 +8,7 @@ local defaults = {
     file = '',
   },
   use_devicons = true,
+  use_git = true,
   mappings = {},
 }
 

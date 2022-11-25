@@ -2,10 +2,18 @@ local M = {}
 
 local config = require('netrw.config')
 local parse = require('netrw.parse')
+local git = require('netrw.git')
 
 ---@param bufnr number
 M.embelish = function(bufnr)
   local namespace = vim.api.nvim_create_namespace('netrw')
+
+  local curdir = vim.b.netrw_curdir
+
+  local git_status = {}
+  if config.options.use_git then
+    git_status = git.status(curdir)
+  end
 
   local lines = vim.api.nvim_buf_get_lines(bufnr, 0, -1, false)
   for i, line in ipairs(lines) do
@@ -33,8 +41,37 @@ M.embelish = function(bufnr)
         end
       end
 
+      if config.options.use_git and git_status[word.node] then
+        local gs = git_status[word.node]
+        opts.virt_text_pos = 'eol'
+        opts.hl_mode = 'combine'
+        if gs.added ~= 0 then
+          opts.virt_text = {{'+', 'GitGutterAdd'}}
+        elseif gs.changed ~= 0 then
+          opts.virt_text = {{'~', 'GitGutterChange'}}
+        elseif gs.deleted ~= 0 then
+          opts.virt_text = {{'-', 'GitGutterDelete'}}
+        end
+      end
     elseif word.type == parse.TYPE_DIR then
       opts.sign_text = config.options.icons.directory
+
+      if config.options.use_git and git_status[word.node] then
+        local gs = git_status[word.node]
+        opts.virt_text_pos = 'eol'
+        opts.hl_mode = 'combine'
+        local virt_texts = {}
+        if gs.added ~= 0 then
+          table.insert(virt_texts, {gs.added .. '+', 'GitGutterAdd'})
+        end
+        if gs.changed ~= 0 then
+          table.insert(virt_texts, {gs.changed .. '~', 'GitGutterChange'})
+        end
+        if gs.deleted ~= 0 then
+          table.insert(virt_texts, {gs.deleted .. '-', 'GitGutterDelete'})
+        end
+        opts.virt_text = virt_texts
+      end
 
     elseif word.type == parse.TYPE_SYMLINK then
       opts.sign_text = config.options.icons.symlink
