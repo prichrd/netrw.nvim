@@ -48,10 +48,7 @@ M.get_node = function(line)
     }
   end
 
-
-
-  local _, _, file = string.find(line, "^([^%s]+)%s*")
-
+  local _, _, file = string.find(line, "^([^%s^%*]+)[%*]*[%s]*")
   return {
     dir = curdir,
     node = file,
