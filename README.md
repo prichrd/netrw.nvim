@@ -81,3 +81,9 @@ require'netrw'.setup{
 
 The plugin documentation can be found at [doc/netrw.nvim.txt](doc/netrw.nvim.txt).
 You can also use the :help netrw.nvim command inside of Neovim.
+
+## Contributing
+
+This project accepts contributions. Feel free to open issues for questions, feature ideas, bugs, etc.
+Before submitting a PR, make sure you run `make lint` with `stylua` and `luacheck` installed.
+
