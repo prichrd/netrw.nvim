@@ -60,6 +60,7 @@ require'netrw'.setup{
 
   -- Define normal mode mapping
   mappings = {
+    -- Function mappings
     ['p'] = function(payload)
       -- Payload is an object describing the node under the cursor, the object
       -- has the following keys:
@@ -70,7 +71,8 @@ require'netrw'.setup{
       -- - type: the type of node under the cursor (0 = dir, 1 = file, 2 = symlink)
       print(vim.inspect(payload))
     end,
-    ['<TAB>'] = ":normal mf<CR>" -- Simple string mapping
+    -- String command mappings
+    ['<Leader><Tab>'] = ":echo 'string command'<CR>",
     -- more mappings ...
   }
   -- your config ...
