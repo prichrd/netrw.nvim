@@ -70,6 +70,7 @@ require'netrw'.setup{
       -- - type: the type of node under the cursor (0 = dir, 1 = file, 2 = symlink)
       print(vim.inspect(payload))
     end,
+    ['<TAB>'] = ":normal mf<CR>" -- Simple string mapping
     -- more mappings ...
   }
   -- your config ...
