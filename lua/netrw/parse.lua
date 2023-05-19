@@ -20,7 +20,7 @@ M.get_node = function(line)
 
 	local curdir = vim.b.netrw_curdir
 
-	local _, _, node, link = string.find(line, "^(.+)@\t%s*%-%->%s*(.+)")
+	local _, _, node, link = string.find(line, "^(.+)@\t[\t\n\r\f\v]*%-%->[\t\n\r\f\v]*(.+)")
 	if node then
 		return {
 			dir = curdir,
@@ -30,7 +30,7 @@ M.get_node = function(line)
 		}
 	end
 
-	local _, _, node_2 = string.find(line, "^([^%s]+)@%s*")
+	local _, _, node_2 = string.find(line, "^([^\t\n\r\f\v]+)@[\t\n\r\f\v]*")
 	if node_2 then
 		return {
 			dir = curdir,
@@ -39,7 +39,7 @@ M.get_node = function(line)
 		}
 	end
 
-	local _, _, dir = string.find(line, "^([^%s]+)/")
+	local _, _, dir = string.find(line, "^([^\t\n\r\f\v]+)/")
 	if dir then
 		return {
 			dir = curdir,
@@ -48,7 +48,7 @@ M.get_node = function(line)
 		}
 	end
 
-	local _, _, file = string.find(line, "^([^%s^%*]+)[%*]*[%s]*")
+	local _, _, file = string.find(line, "^([^\t\n\r\f\v^%*]+)[%*]*[\t\n\r\f\v]*")
 	return {
 		dir = curdir,
 		node = file,
