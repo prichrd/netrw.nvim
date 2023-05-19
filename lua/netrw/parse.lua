@@ -53,7 +53,9 @@ M.get_node = function(line)
 
         if (extensionStart == nil) then
             return nil
-        end
+		elseif (extensionStart == 1) then
+			return ext(file:sub(2))
+		end
 
         local extension = file:sub(extensionStart + 1)
         return extension
