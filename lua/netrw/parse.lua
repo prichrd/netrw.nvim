@@ -52,7 +52,6 @@ M.get_node = function(line)
 	return {
 		dir = curdir,
 		node = file,
-		extension = vim.fn.fnamemodify(file, ":e"),
 		type = M.TYPE_FILE,
 	}
 end

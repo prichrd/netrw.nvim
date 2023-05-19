@@ -23,11 +23,11 @@ M.embelish = function(bufnr)
 			if config.options.use_devicons then
 				local has_devicons, devicons = pcall(require, "nvim-web-devicons")
 				if has_devicons then
-					local ic, color = devicons.get_icon_color(word.node, word.extension)
+					local ic, color = devicons.get_icon_color(word.node)
 					if ic then
-						local hl_group = "FileIconColor" .. word.extension
+						local hl_group = "FileIconColor" .. word.node
 						vim.api.nvim_set_hl(0, hl_group, { fg = color })
-						opts.sign_hl_group = "FileIconColor" .. word.extension
+						opts.sign_hl_group = hl_group
 						opts.sign_text = ic
 					end
 				end
