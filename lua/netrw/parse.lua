@@ -48,7 +48,8 @@ M.get_node = function(line)
 		}
 	end
 
-	local ext = function(file)
+	local ext
+	ext = function(file)
 		local extensionStart = file:find('.', 0, true)
 
 		if (extensionStart == nil) then
