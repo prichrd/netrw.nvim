@@ -1,4 +1,4 @@
-name: Luacheck
+name: Pipeline
 on: [pull_request]
 jobs:
   lint:
@@ -13,3 +13,22 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           version: latest
           args: --check .
+
+  test:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout Netrw
+        uses: actions/checkout@v3
+        with:
+          path: netrw.nvim
+      - name: Checkout Plenary
+        uses: actions/checkout@v3
+        with:
+          repository: nvim-lua/plenary.nvim
+          path: netrw.nvim/.tests/site/pack/deps/start/plenary.nvim
+      - uses: rhysd/action-setup-vim@v1
+        with:
+          neovim: true
+      - run: make test
+        working-directory: netrw.nvim
+        timeout-minutes: 1

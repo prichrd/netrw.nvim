@@ -4,3 +4,7 @@ stds.nvim = {
   },
 }
 std = "lua51+nvim"
+
+include_files = {
+    "lua/**/*.lua",
+}
