@@ -5,7 +5,7 @@ local defaults = {
 	icons = {
 		symlink = "",
 		directory = "",
-		file = "",
+		file = "",
 	},
 	use_devicons = true,
 	mappings = {},
