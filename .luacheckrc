@@ -1,10 +1,10 @@
 stds.nvim = {
-  read_globals = {
+  globals = {
     "vim",
   },
 }
 std = "lua51+nvim"
 
 include_files = {
-    "lua/**/*.lua",
+  "lua/**/*.lua",
 }

@@ -30,6 +30,9 @@ function M.setup(options)
 				return
 			end
 
+			-- Forces the usage of signcolumn in netrw buffers.
+			vim.opt_local.signcolumn = "yes"
+
 			local bufnr = vim.api.nvim_get_current_buf()
 			require("netrw.ui").embelish(bufnr)
 			require("netrw.actions").bind(bufnr)
