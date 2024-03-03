@@ -54,6 +54,7 @@ Custom key mappings: >
         -- - link: the referenced file if the node under the cursor is a symlink
         -- - extension: the file extension if the node under the cursor is a file
         -- - type: the type of node under the cursor (0 = dir, 1 = file, 2 = symlink)
+        -- - col: the column of the node (for liststyle 3)
         print(vim.inspect(payload))
       end,
       -- String command mappings
