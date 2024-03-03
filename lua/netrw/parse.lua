@@ -30,12 +30,17 @@ local parse_liststyle_0 = function(line, curdir)
 		}
 	end
 
-	return {
-		dir = curdir,
-		node = line,
-		extension = vim.fn.fnamemodify(line, ":e"),
-		type = M.TYPE_FILE,
-	}
+    local ext = vim.fn.fnamemodify(line, ":e")
+    if string.sub(ext, -1) == "*" then
+        ext = string.sub(ext, 1, -2)
+        line = string.sub(line, 1, -2)
+    end
+    return {
+        dir = curdir,
+        node = line,
+        extension = ext,
+        type = M.TYPE_FILE,
+    }
 end
 
 ---@param line string
@@ -63,12 +68,17 @@ local parse_liststyle_1 = function(line, curdir)
 	end
 
 	local file = vim.fn.substitute(line, "^\\(\\%(\\S\\+ \\)*\\S\\+\\).\\{-}$", "\\1", "e")
-	return {
-		dir = curdir,
-		node = file,
-		extension = vim.fn.fnamemodify(file, ":e"),
-		type = M.TYPE_FILE,
-	}
+    local ext = vim.fn.fnamemodify(file, ":e")
+    if string.sub(ext, -1) == "*" then
+        ext = string.sub(ext, 1, -2)
+        file = string.sub(file, 1, -2)
+    end
+    return {
+        dir = curdir,
+        node = file,
+        extension = ext,
+        type = M.TYPE_FILE,
+    }
 end
 
 ---@param line string
