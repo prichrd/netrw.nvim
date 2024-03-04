@@ -103,6 +103,16 @@ local testcases = {
 			type = parse.TYPE_SYMLINK,
 		},
 	},
+	{
+		liststyle = 0,
+		line = "executable.exe*",
+		expected = {
+			dir = curdir,
+			extension = "exe",
+			node = "executable.exe",
+			type = parse.TYPE_FILE,
+		},
+	},
 
 	--
 	-- liststyle 1
@@ -193,6 +203,16 @@ local testcases = {
 			node = "todo.md",
 			extension = "md",
 			type = parse.TYPE_SYMLINK,
+		},
+		{
+			liststyle = 1,
+			line = "executable.exe*                 56 Mon 26 Jun 09:15:59 2023",
+			expected = {
+				dir = curdir,
+				extension = "exe",
+				node = "executable.exe",
+				type = parse.TYPE_FILE,
+			},
 		},
 	},
 }
