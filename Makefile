@@ -4,6 +4,10 @@ all: lint
 luacheck:
 	luacheck .
 
+.PHONY: format
+format:
+	stylua .
+
 .PHONY: stylua
 stylua:
 	stylua --check .

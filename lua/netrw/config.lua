@@ -26,7 +26,7 @@ function M.setup(options)
 				return
 			end
 
-			if vim.b.netrw_liststyle ~= 0 and vim.b.netrw_liststyle ~= 1 then
+			if vim.b.netrw_liststyle ~= 0 and vim.b.netrw_liststyle ~= 1 and vim.b.netrw_liststyle ~= 3 then
 				return
 			end
 
