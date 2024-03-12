@@ -4,7 +4,7 @@ It's not because we use netrw that we cannot have nice things! This plugin adds
 a layer of *✨bling✨* and configuration to your favorite file explorer.
 
 <p align="center">
-<img src="https://user-images.githubusercontent.com/3706527/203861361-2bead1ca-a8d2-46bf-b7ed-28ebc3b0589e.png">
+<img width="706" alt="image" src="https://github.com/prichrd/netrw.nvim/assets/3706527/2d3ec6cd-9950-4f5f-98cc-de86d91291c2">
 </p>
 
 ## Features
