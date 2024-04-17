@@ -9,8 +9,9 @@ a layer of *✨bling✨* and configuration to your favorite file explorer.
 
 ## Features
 
-- Print file icons in the sign column
-- Configure custom actions with keybinds
+This plugins adds features to the plain netrw file explorer:
+- Print file icons
+- Configure custom actions via keybinds
 
 ## Requirements
 
@@ -22,17 +23,15 @@ a layer of *✨bling✨* and configuration to your favorite file explorer.
 
 Install the plugin with your preferred package manager:
 
-[vim-plug](https://github.com/junegunn/vim-plug)
+<details>
+<summary><a href="https://github.com/folke/lazy.nvim">Lazy</a></summary>
+<code>{ 'prichrd/netrw.nvim', opts = {} }</code>
+</details>
 
-```vim
-Plug 'prichrd/netrw.nvim'
-```
-
-[packer](https://github.com/wbthomason/packer.nvim)
-
-```lua
-use 'prichrd/netrw.nvim'
-```
+<details>
+<summary><a href="https://github.com/junegunn/vim-plug">vim-plug</a></summary>
+<code>Plug 'prichrd/netrw.nvim'</code>
+</details>
 
 ## Usage
 
