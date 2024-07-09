@@ -13,7 +13,7 @@ local testcases = {
 			col = 0,
 			node = "hello.txt",
 			extension = "txt",
-			type = parse.TYPE_FILE,
+			type = parse.TYPE_TXT,
 		},
 	},
 	{
@@ -35,7 +35,18 @@ local testcases = {
 			col = 0,
 			node = "README.md",
 			extension = "md",
-			type = parse.TYPE_FILE,
+			type = parse.TYPE_MARKDOWNFILE,
+		},
+	},
+	{
+		liststyle = 0,
+		line = "quiz.pdf",
+		expected = {
+			dir = curdir,
+			col = 0,
+			node = "quiz.pdf",
+			extension = "pdf",
+			type = parse.TYPE_PDF,
 		},
 	},
 	{
@@ -68,7 +79,7 @@ local testcases = {
 			col = 0,
 			node = "there are spaces.txt",
 			extension = "txt",
-			type = parse.TYPE_FILE,
+			type = parse.TYPE_TXT,
 		},
 	},
 	{
@@ -124,7 +135,6 @@ local testcases = {
 			type = parse.TYPE_FILE,
 		},
 	},
-
 	--
 	-- liststyle 1
 	--
@@ -168,7 +178,7 @@ local testcases = {
 			col = 0,
 			node = "README.md",
 			extension = "md",
-			type = parse.TYPE_FILE,
+			type = parse.TYPE_MARKDOWNFILE,
 		},
 	},
 	{
@@ -190,7 +200,7 @@ local testcases = {
 			col = 0,
 			node = "hello2.txt",
 			extension = "txt",
-			type = parse.TYPE_FILE,
+			type = parse.TYPE_TXT,
 		},
 	},
 	{
@@ -201,7 +211,7 @@ local testcases = {
 			col = 0,
 			node = "there are 2 spaces.txt",
 			extension = "txt",
-			type = parse.TYPE_FILE,
+			type = parse.TYPE_TXT,
 		},
 	},
 	{
@@ -236,7 +246,6 @@ local testcases = {
 			},
 		},
 	},
-
 	--
 	-- liststyle 3
 	--
@@ -248,7 +257,7 @@ local testcases = {
 			col = 0,
 			node = "hello.txt",
 			extension = "txt",
-			type = parse.TYPE_FILE,
+			type = parse.TYPE_TXT,
 		},
 	},
 	{
@@ -259,7 +268,7 @@ local testcases = {
 			col = 4,
 			node = "hello.txt",
 			extension = "txt",
-			type = parse.TYPE_FILE,
+			type = parse.TYPE_TXT,
 		},
 	},
 	{
@@ -292,7 +301,7 @@ local testcases = {
 			col = 0,
 			node = "README.md",
 			extension = "md",
-			type = parse.TYPE_FILE,
+			type = parse.TYPE_MARKDOWNFILE,
 		},
 	},
 	{
@@ -303,7 +312,7 @@ local testcases = {
 			col = 4,
 			node = "README.md",
 			extension = "md",
-			type = parse.TYPE_FILE,
+			type = parse.TYPE_MARKDOWNFILE,
 		},
 	},
 	{
@@ -358,7 +367,7 @@ local testcases = {
 			col = 0,
 			node = "there are spaces.txt",
 			extension = "txt",
-			type = parse.TYPE_FILE,
+			type = parse.TYPE_TXT,
 		},
 	},
 	{
@@ -369,7 +378,7 @@ local testcases = {
 			col = 4,
 			node = "there are spaces.txt",
 			extension = "txt",
-			type = parse.TYPE_FILE,
+			type = parse.TYPE_TXT,
 		},
 	},
 	{

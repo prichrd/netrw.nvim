@@ -23,6 +23,12 @@ local get_icon = function(node)
 		icon = config.options.icons.directory
 	elseif node.type == parse.TYPE_SYMLINK then
 		icon = config.options.icons.symlink
+	elseif node.type == parse.TYPE_MARKDOWNFILE then
+		icon = config.options.icons.md
+	elseif node.type == parse.TYPE_PDF then
+		icon = config.options.icons.pdf
+	elseif node.type == parse.TYPE_TXT then
+		icon = config.options.icons.text
 	end
 
 	return { icon, hl_group }

@@ -3,9 +3,12 @@ local M = {}
 ---@class Config
 local defaults = {
 	icons = {
-		symlink = "",
-		directory = "",
-		file = "",
+		symlink = "",
+		directory = "",
+		file = "",
+		pdf = "",
+		md = "󰰏",
+		text = "󰊄"
 	},
 	use_devicons = true,
 	mappings = {},
@@ -35,7 +38,6 @@ function M.setup(options)
 
 			local bufnr = vim.api.nvim_get_current_buf()
 			require("netrw.ui").embelish(bufnr)
-			require("netrw.actions").bind(bufnr)
 		end,
 		group = vim.api.nvim_create_augroup("netrw", { clear = false }),
 	})

@@ -3,6 +3,9 @@ local M = {}
 M.TYPE_DIR = 0
 M.TYPE_FILE = 1
 M.TYPE_SYMLINK = 2
+M.TYPE_MARKDOWNFILE = 3
+M.TYPE_PDF = 4
+M.TYPE_TXT = 5
 
 ---@alias Word {dir:string, node:string, link:string|nil, extension:string|nil, type:number, col:number}
 
@@ -19,6 +22,36 @@ local parse_liststyle_0 = function(line, curdir)
 			extension = vim.fn.fnamemodify(node, ":e"),
 			link = link,
 			type = M.TYPE_SYMLINK,
+		}
+	end
+
+	local _, _, markdown = string.find(line, "^(.*)%.md")
+	if markdown then
+		return {
+			dir = curdir,
+			col = 0,
+			node = markdown,
+			type = M.TYPE_MARKDOWNFILE,
+		}
+	end
+
+	local _, _, pdf = string.find(line, "^(.*)%.pdf")
+	if pdf then
+		return {
+			dir = curdir,
+			col = 0,
+			node = pdf,
+			type = M.TYPE_PDF,
+		}
+	end
+
+	local _, _, txt = string.find(line, "^(.*)%.txt")
+	if txt then
+		return {
+			dir = curdir,
+			col = 0,
+			node = txt,
+			type = M.TYPE_TXT,
 		}
 	end
 
@@ -63,6 +96,36 @@ local parse_liststyle_1 = function(line, curdir)
 		}
 	end
 
+	local _, _, markdown = string.find(line, "^(.*)%.md")
+	if markdown then
+		return {
+			dir = curdir,
+			col = 0,
+			node = markdown,
+			type = M.TYPE_MARKDOWNFILE,
+		}
+	end
+
+	local _, _, pdf = string.find(line, "^(.*)%.pdf")
+	if pdf then
+		return {
+			dir = curdir,
+			col = 0,
+			node = pdf,
+			type = M.TYPE_PDF,
+		}
+	end
+
+	local _, _, txt = string.find(line, "^(.*)%.txt")
+	if txt then
+		return {
+			dir = curdir,
+			col = 0,
+			node = txt,
+			type = M.TYPE_TXT,
+		}
+	end
+
 	local _, _, dir = string.find(line, "^(.*)/")
 	if dir then
 		return {
@@ -90,9 +153,9 @@ local parse_liststyle_1 = function(line, curdir)
 end
 
 ---@param line string
+---@param curdir string
 ---@return Word|nil
-local parse_liststyle_3 = function(line)
-	local curdir = vim.b.netrw_curdir
+local parse_liststyle_3 = function(line, curdir)
 	local _, to = string.find(line, "^[|%s]*")
 	local pipelessLine = string.sub(line, to + 1, #line)
 
@@ -109,6 +172,36 @@ local parse_liststyle_3 = function(line)
 			extension = vim.fn.fnamemodify(node, ":e"),
 			link = link,
 			type = M.TYPE_SYMLINK,
+		}
+	end
+
+	local _, _, markdown = string.find(line, "^(.*)%.md")
+	if markdown then
+		return {
+			dir = curdir,
+			col = 0,
+			node = markdown,
+			type = M.TYPE_MARKDOWNFILE,
+		}
+	end
+
+	local _, _, pdf = string.find(line, "^(.*)%.pdf")
+	if pdf then
+		return {
+			dir = curdir,
+			col = 0,
+			node = pdf,
+			type = M.TYPE_PDF,
+		}
+	end
+
+	local _, _, txt = string.find(line, "^(.*)%.txt")
+	if txt then
+		return {
+			dir = curdir,
+			col = 0,
+			node = txt,
+			type = M.TYPE_TXT,
 		}
 	end
 

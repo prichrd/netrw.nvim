@@ -9,8 +9,9 @@ a layer of *✨bling✨* and configuration to your favorite file explorer.
 
 ## Features
 
-- Print file icons in the sign column
-- Configure custom actions with keybinds
+This plugins adds features to the plain netrw file explorer:
+- Print file icons
+- Configure custom actions via keybinds
 
 ## Requirements
 
@@ -22,17 +23,15 @@ a layer of *✨bling✨* and configuration to your favorite file explorer.
 
 Install the plugin with your preferred package manager:
 
-[vim-plug](https://github.com/junegunn/vim-plug)
+<details>
+<summary><a href="https://github.com/folke/lazy.nvim">Lazy</a></summary>
+<code>{ 'prichrd/netrw.nvim', opts = {} }</code>
+</details>
 
-```vim
-Plug 'prichrd/netrw.nvim'
-```
-
-[packer](https://github.com/wbthomason/packer.nvim)
-
-```lua
-use 'prichrd/netrw.nvim'
-```
+<details>
+<summary><a href="https://github.com/junegunn/vim-plug">vim-plug</a></summary>
+<code>Plug 'prichrd/netrw.nvim'</code>
+</details>
 
 ## Usage
 
@@ -79,6 +78,133 @@ require'netrw'.setup{
   -- your config ...
 }
 ```
+
+## How to add your own symbols
+
+* First you have to locate your nvim-data files to go and alter the lua code that runs the extention.
+
+```
+:echo $VIM -- Will output where vim looks for vimfiles.
+
+:echo $VIMRUNTIME -- Will output vim's runtime path.
+```
+
+You should also look in ```~AppData/Local/nvim-data```.
+
+***
+
+* Once you've found the files. (indicative file paths)
+
+You're going to want to edit:
+
+```
+~\AppData\Local\nvim-data\lazy\netrw.nvim\lua\netrw\parse.lua
+```
+
+***
+
+Where you:
+
+* Add
+```
+M.TYPE_{file type in capitals} = {index}
+```
+In the relevant block at the top of the file.
+
+* Add
+```
+    local _, _, {file type} = string.find(line, "^(.*)%.{extention}")
+    if {file type} then
+        return {
+            dir = curdir,
+            col = 0,
+            node = {file type},
+            type = M.TYPE_{file type in capitals},
+        }
+    end
+
+```
+### Example:
+```
+  local _, _, markdown = string.find(line, "^(.*)%.md")
+  if markdown then
+      return {
+          dir = curdir,
+          col = 0,
+          node = markdown,
+          type = M.TYPE_MARKDOWNFILE,
+      }
+  end
+
+```
+To all 3 functions {parse_liststyle_0, parse_liststyle_1, parse_liststyle_3}.
+
+***
+
+```
+~\AppData\Local\nvim-data\lazy\netrw.nvim\lua\netrw\config.lua
+```
+
+***
+
+Where you:
+
+* Add
+```
+{alias} = "{symbol}"
+```
+In the relevant block at the top of the file.
+```
+  {
+    ---@class Config
+    local defaults = {
+        icons = {
+            symlink = "",
+            directory = "",
+            file = "",
+            -- Examples
+            pdf = "",
+            md = "󰰏",
+            text = "󰊄"
+        },
+        use_devicons = true,
+        mappings = {},
+      }
+  }
+```
+
+***
+
+```
+~\AppData\Local\nvim-data\lazy\netrw.nvim\lua\netrw\ui.lua
+```
+
+***
+
+Where you:
+
+* Add
+```
+  elseif node.type == parse.TYPE_{file type in capitals} then
+    icon = config.options.icond.{alias}
+```
+### Example
+```
+  elseif node.type == parse.TYPE_DIR then
+      icon = config.options.icons.directory
+  elseif node.type == parse.TYPE_SYMLINK then
+      icon = config.options.icons.symlink
+  -- Examples
+  elseif node.type == parse.TYPE_MARKDOWNFILE then
+      icon = config.options.icons.md
+  elseif node.type == parse.TYPE_PDF then
+      icon = config.options.icons.pdf
+  elseif node.type == parse.TYPE_TXT then
+      icon = config.options.icons.text
+  end
+```
+
+***
 
 The plugin documentation can be found at [doc/netrw.nvim.txt](doc/netrw.nvim.txt).
 You can also use the :help netrw.nvim command inside of Neovim.
