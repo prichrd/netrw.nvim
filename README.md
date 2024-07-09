@@ -83,6 +83,8 @@ require'netrw'.setup{
 
 * First you have to locate your nvim-data files to go and alter the lua code that runs the extention.
 
+Type:
+
 ```
 :echo $VIM -- Will output where vim looks for vimfiles.
 
@@ -106,13 +108,13 @@ You're going to want to edit:
 Where you:
 
 * Add
-```
+```lua
 M.TYPE_{file type in capitals} = {index}
 ```
 In the relevant block at the top of the file.
 
 * Add
-```
+```lua
     local _, _, {file type} = string.find(line, "^(.*)%.{extention}")
     if {file type} then
         return {
@@ -125,7 +127,7 @@ In the relevant block at the top of the file.
 
 ```
 ### Example:
-```
+```lua
   local _, _, markdown = string.find(line, "^(.*)%.md")
   if markdown then
       return {
@@ -154,7 +156,7 @@ Where you:
 {alias} = "{symbol}"
 ```
 In the relevant block at the top of the file.
-```
+```lua
   {
     ---@class Config
     local defaults = {
@@ -184,12 +186,12 @@ In the relevant block at the top of the file.
 Where you:
 
 * Add
-```
+```lua
   elseif node.type == parse.TYPE_{file type in capitals} then
     icon = config.options.icond.{alias}
 ```
 ### Example
-```
+```lua
   elseif node.type == parse.TYPE_DIR then
       icon = config.options.icons.directory
   elseif node.type == parse.TYPE_SYMLINK then
