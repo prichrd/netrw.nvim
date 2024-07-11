@@ -10,8 +10,16 @@ local get_icon = function(node)
 	if node.type == parse.TYPE_FILE then
 		icon = config.options.icons.file
 		if config.options.use_devicons then
+			local has_miniicons, miniicons = pcall(require, "mini.icons")
 			local has_devicons, devicons = pcall(require, "nvim-web-devicons")
-			if has_devicons then
+
+			if has_miniicons then
+				local ic, hi = miniicons.get("file", node.node)
+				if ic then
+					icon = ic
+					hl_group = hi
+				end
+			elseif has_devicons then
 				local ic, hi = devicons.get_icon(node.node, nil, { strict = true, default = false })
 				if ic then
 					icon = ic
