@@ -5,7 +5,7 @@ CONTENTS
 *netrw-contents*
 
   1. Intro (|netrw-intro|)
-  2. Configure (|netrw-configure|)
+  2. Configuration (|netrw-configuration|)
 
 ==============================================================================
 INTRO
@@ -19,49 +19,36 @@ explorer:
 
 It requires Neovim 0.5.0 and other optional dependencies:
 
+* mini.icons
 * nvim-web-devicons
 * A patched font (see README.md for links to install)
 
 ==============================================================================
-CONFIGURE
-*netrw-configure*
+CONFIGURATION
+*netrw-configuration*
 
-Enable the plugin: >
-  require'netrw'.setup{
-    -- Put your configuration here, or leave the object empty to take the default
-    -- configuration.
+Enable the plugin with the default configuration:
+>lua
+  require("netrw").setup({})
+
+Or customize the options to fit your needs:
+>lua
+  require("netrw").setup({
+    -- File icons to use when `use_devicons` is false or if
+    -- no icon is found for the given file type.
     icons = {
-      symlink = '', -- Symlink icon (directory and file)
-      directory = '', -- Directory icon
-      file = '', -- File icon
+      symlink = '',
+      directory = '',
+      file = '',
     },
-    use_devicons = true, -- Uses nvim-web-devicons if true, otherwise use the file icon specified above
-    mappings = {}, -- Custom key mappings
-  }
-
-Custom key mappings: >
-  require'netrw'.setup{
-    -- your config ...
-
-    -- Define normal mode mapping
+    -- Uses mini.icon or nvim-web-devicons if true, otherwise use the file icon specified above
+    use_devicons = true,
     mappings = {
-      -- Function mappings
-      ['p'] = function(payload)
-        -- Payload is an object describing the node under the cursor, the object
-        -- has the following keys:
-        -- - dir: the current netrw directory (vim.b.netrw_curdir)
-        -- - node: the name of the file or directory under the cursor
-        -- - link: the referenced file if the node under the cursor is a symlink
-        -- - extension: the file extension if the node under the cursor is a file
-        -- - type: the type of node under the cursor (0 = dir, 1 = file, 2 = symlink)
-        -- - col: the column of the node (for liststyle 3)
-        print(vim.inspect(payload))
-      end,
-      -- String command mappings
-      ['<Leader><Tab>'] = ":echo 'string command'<CR>",
-      -- more mappings ...
-    }
-    -- your config ...
-  }
+      -- Function mappings receive an object describing the node under the cursor
+      ['p'] = function(payload) print(vim.inspect(payload)) end,
+      -- String mappings are executed as vim commands
+      ['<Leader>p'] = ":echo 'hello world'<CR>",
+    },
+  })
 
 vim: ft=help tw=78 et ts=2 sw=2 sts=2 norl
