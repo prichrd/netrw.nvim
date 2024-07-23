@@ -65,6 +65,7 @@ require("netrw").setup({
     ['<Leader>p'] = ":echo 'hello world'<CR>",
   },
 })
+```
 
 ## Contributing
 
