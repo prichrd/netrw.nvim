@@ -41,6 +41,20 @@ Or customize the options to fit your needs:
       directory = '',
       file = '',
     },
+    git = {
+      enable = false
+      signs = {
+        added = "A",
+        changed = "M",
+        deleted = "D",
+        folder = "",
+      },
+      hl = {
+        added = "GitSignsAdd",
+        changed = "GitSignsChange",
+        deleted = "GitSignsDelete",
+      },
+    },
     -- Uses mini.icon or nvim-web-devicons if true, otherwise use the file icon specified above
     use_devicons = true,
     mappings = {
@@ -50,5 +64,13 @@ Or customize the options to fit your needs:
       ['<Leader>p'] = ":echo 'hello world'<CR>",
     },
   })
+
+==============================================================================
+KNOWN ISSUES
+netrw-known-issues
+
+
+* Git integration is incomplete; treeview won't show all the status, only the
+selected directory
 
 vim: ft=help tw=78 et ts=2 sw=2 sts=2 norl
