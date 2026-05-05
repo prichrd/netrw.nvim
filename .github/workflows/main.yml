@@ -5,24 +5,23 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Luacheck linter
         uses: lunarmodules/luacheck@v1
-      - uses: JohnnyMorganz/stylua-action@v3
+      - uses: JohnnyMorganz/stylua-action@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           version: latest
           args: --check .
-
   test:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout Netrw
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           path: netrw.nvim
       - name: Checkout Plenary
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           repository: nvim-lua/plenary.nvim
           path: netrw.nvim/.tests/site/pack/deps/start/plenary.nvim
@@ -31,4 +30,4 @@ jobs:
           neovim: true
       - run: make test
         working-directory: netrw.nvim
-        timeout-minutes: 1
+        timeout-minutes: 1 
