@@ -5,10 +5,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
       - name: Luacheck linter
         uses: lunarmodules/luacheck@v1
-      - uses: JohnnyMorganz/stylua-action@v4
+      - uses: JohnnyMorganz/stylua-action@v5
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           version: latest
@@ -17,11 +17,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Netrw
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           path: netrw.nvim
       - name: Checkout Plenary
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           repository: nvim-lua/plenary.nvim
           path: netrw.nvim/.tests/site/pack/deps/start/plenary.nvim
