@@ -7,6 +7,20 @@ local defaults = {
 		directory = "",
 		file = "",
 	},
+	git = {
+		enable = false,
+		signs = {
+			added = "A",
+			changed = "M",
+			deleted = "D",
+			folder = "",
+		},
+		hl = {
+			added = "GitSignsAdd",
+			changed = "GitSignsChange",
+			deleted = "GitSignsDelete",
+		},
+	},
 	use_devicons = true,
 	mappings = {},
 }

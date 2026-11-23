@@ -56,6 +56,20 @@ require("netrw").setup({
     directory = '',
     file = '',
   },
+  git = {
+    enable = false
+    signs = {
+      added = "A",
+      changed = "M",
+      deleted = "D",
+      folder = "",
+    },
+    hl = {
+      added = "GitSignsAdd",
+      changed = "GitSignsChange",
+      deleted = "GitSignsDelete",
+    },
+  },
   -- Uses mini.icon or nvim-web-devicons if true, otherwise use the file icon specified above
   use_devicons = true,
   mappings = {
